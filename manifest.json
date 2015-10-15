@@ -1,0 +1,28 @@
+{ 
+    "manifest_version": 2, 
+    "name": "FloatingShortcuts", 
+    "version": "0.0.1",
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": [
+                "jquery-2.1.4.min.js",
+                "materialize.min.js",
+                "floatingActionButton.js",
+                "shortcuts.js"
+            ],
+             "run_at": "document_start"
+        }
+    ],
+    "browser_action": {
+        "default_title": "FloatingShortcuts",
+        "default_icon": "icon.png",
+        "default_popup": "index.html"
+    },
+    "web_accessible_resources": [
+        "fab.html"
+    ]
+}
