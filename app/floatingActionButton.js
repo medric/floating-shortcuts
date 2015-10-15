@@ -3,8 +3,11 @@
  * @constructor
  */
 var FloatingActionButton = function () {
-    this._render();
-    this._addListeners();
+    this._render(function(done) {
+        if(done) {
+            this._addListeners();
+        }
+    });
 };
 
 FloatingActionButton.prototype = {
@@ -21,9 +24,11 @@ FloatingActionButton.prototype = {
      * 
      * @private
      */
-    _render: function() {
-        $.get(chrome.extension.getURL('./render/fab.html'), function(data) {
-            this.$fab_ = $($.parseHTML(data)).appendTo('body');
+    _render: function(next) {
+        var self = this;
+        $.get(chrome.extension.getURL('/render/fab.html'), function(data) {
+            self._$fab = $($.parseHTML(data)).appendTo('body');
+            next.call(self, true);
         });
     },
     
@@ -34,7 +39,8 @@ FloatingActionButton.prototype = {
      * @private
      */
     _addListeners: function () {
-        this._$fab.bind('click', this._handleClick.bind(this));
+        this._$fab.bind('click', this._handleClick.bind(this))
+                    .bind('hover', this._handleHover.bind(this));
     },
 
     /**
